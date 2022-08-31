@@ -1,14 +1,12 @@
 final criar_banco = [
-  '''
+  """
     CREATE TABLE animal(
       id INTEGER NOT NULL PRIMARY KEY,
       nome TEXT NOT NULL,
-      raca TEXT NOT NULL,
+      raca TEXT NOT NULL
     )
-
-'''
-,
-  '''
+""",
+  """
     CREATE TABLE dono(
       id INTEGER NOT NULL PRIMARY KEY,
       nome TEXT NOT NULL,
@@ -17,8 +15,5 @@ final criar_banco = [
       cidade TEXT NOT NULL,
       bairro TEXT NOT NULL
     )
-
-'''
-
-
+"""
 ];

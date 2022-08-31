@@ -1,6 +1,5 @@
 import 'package:pet_shop/banco/sqlite/conexao.dart';
 import 'package:pet_shop/domain/animal.dart';
-import 'package:pet_shop/domain/dono.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AnimalDAO {
@@ -14,6 +13,32 @@ class AnimalDAO {
     return linhasAfetadas > 0;
   }
 
+  Future<bool> excluir(int id) async {
+    _db = await Conexao.getConexao();
+    _sql = 'DELETE FROM animal WHERE id =?';
+    int linhasAfetadas = await _db.rawDelete(_sql, [id]);
+    return linhasAfetadas > 0;
+  }
 
-  
+  Future<Animal> consultar(int id) async {
+    late Database db;
+    try {
+      const sql = 'SELECT * FROM animal WHERE id = ?';
+      db = await Conexao.getConexao();
+      Map<String, Object?> resultado = (await db.rawQuery(sql, [id])).first;
+      if (resultado.isEmpty) {
+        throw Exception('Nenhum registro de id $id encontrado!');
+      }
+      Animal animal = Animal(
+        id: resultado['id'] as int,
+        nome: resultado['nome'].toString(),
+        raca: resultado['raca'].toString(),
+      );
+      return animal;
+    } catch (e) {
+      throw Exception('Não foi possível retornar a consulta do registro $id');
+    } finally {
+      db.close();
+    }
+  }
 }

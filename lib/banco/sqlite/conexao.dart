@@ -1,6 +1,6 @@
-
 import 'package:path/path.dart';
 import 'package:pet_shop/banco/sqlite/script.dart';
+import 'package:pet_shop/domain/animal.dart';
 import 'package:sqflite/sqflite.dart';
 
 class Conexao {
