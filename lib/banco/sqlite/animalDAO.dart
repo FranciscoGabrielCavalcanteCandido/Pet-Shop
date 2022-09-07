@@ -41,4 +41,25 @@ class AnimalDAO {
       db.close();
     }
   }
+
+  Future<List<Animal>> listar() async {
+    late Database db;
+    try{
+      const sql = 'SELECT * FROM animal';
+      db = await Conexao.getConexao();
+      List<Map<String,Object?>> resultado = (await db.rawQuery(sql));
+      if(resultado.isEmpty) throw Exception('Sem registros');
+      List<Animal> animais = resultado.map((linha) { 
+        return Animal(
+          id: linha['id'] as int, 
+          nome: linha['nome'].toString(), 
+          raca: linha['raca'].toString() );
+      }).toList() ;
+      return animais;
+    }catch(e){
+      throw Exception('classe AnimalDAOSQLite, método listar');
+    } finally {
+      db.close();
+    }
+  }
 }
